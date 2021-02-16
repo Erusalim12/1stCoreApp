@@ -1,0 +1,10 @@
+﻿@model IEnumerable<DateTime>
+<hr />
+
+<h4>Список записей</h4>
+<ul>
+    @foreach (var item in Model)
+    {
+        <li>@item</li>
+    }
+</ul>

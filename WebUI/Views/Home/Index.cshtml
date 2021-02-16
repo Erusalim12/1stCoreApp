@@ -1,0 +1,10 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    @await Component.InvokeAsync("CurrentTime")
+</div>
+<div>
+    @await Component.InvokeAsync("RecordList")
+</div>
