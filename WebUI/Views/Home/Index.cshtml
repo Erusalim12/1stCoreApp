@@ -4,10 +4,8 @@
 
 <div class="text-center">
     <div>
-        <p id="current_time">@await Component.InvokeAsync("CurrentDate")</p>
-
+        <p id="current_time"></p>
     </div>
-
     <button type="button" id="submitBtn" class="btn btn-sm btn-outline-primary btn-block">Сохранить</button>
 </div>
 
@@ -16,18 +14,30 @@
 </div>
 @section Scripts{
     <script>
-        var currentVal = $('#current_time').text();
+
         $('#submitBtn').click(function() {
                 $.ajax({
                     type: "POST",
                     url: '@Url.Action("SaveValue", "Home")',
-                    data: { date: currentVal },
+                    data: { date: $('#current_time').text()   },
                     success: function (response) {
-                        $("#recordlist").append('<li>' + currentVal+'</li>');
+                        if (response.result==1)
+                            $("#recordlist").append('<li>' + $('#current_time').text()+'</li>');
             $('#recordlist').append(response.value);
             alert(response.message);
         }
         });
-    });
+        });
+
+        var timeDisplay = document.getElementById("current_time");
+
+
+        function refreshTime() {
+            var dateString = new Date().toLocaleString("ru-RU");
+         //   var formattedString = dateString.replace(", ", " ");
+         //   timeDisplay.innerHTML = formattedString;
+            $('#current_time').text(dateString);
+        }
+        setInterval(refreshTime, 1000);
     </script>
 }

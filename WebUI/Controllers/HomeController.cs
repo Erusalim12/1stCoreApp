@@ -4,7 +4,7 @@ using System;
 using System.Diagnostics;
 using WebUI.Models;
 using WebUI.Models.Entity;
- 
+
 
 namespace WebUI.Controllers
 {
@@ -28,11 +28,16 @@ namespace WebUI.Controllers
         [Route("Home/SaveValue")]
         public IActionResult Save(DateTime date)
         {
-            var entity = new DateTimeEntity { Value = date };
-            _db.DateTimeRecords.Add(entity);
-            _db.SaveChanges();
+            if (date != DateTime.MinValue)
+            {
+                var entity = new DateTimeEntity { Value = date };
+                _db.DateTimeRecords.Add(entity);
+                _db.SaveChanges();
+                return Json(new { Message = "Success", result = 1 });
+            }
 
-            return entity.Id != 0 ? Json(new { Message = "Success" }) : Json(new { Message = "Error" });
+
+            return Json(new { Message = "Error", result = 0 });
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

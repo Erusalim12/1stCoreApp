@@ -1,4 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using WebUI.Controllers;
 
 namespace WebUI.Tests
 {
@@ -6,9 +7,8 @@ namespace WebUI.Tests
     public class UnitTest1
     {
         [TestMethod]
-        public void DateServiceCanCreate()
+        public void test1()
         {
-           
         }
 
         [TestMethod]
