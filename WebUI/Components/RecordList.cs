@@ -1,21 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using WebUI.Models;
 
 namespace WebUI.Components
 {
     public class RecordList : ViewComponent
     {
-        //private readonly AppDbContext _context;
-        //public RecordList(DbContext context)
-        //{
-        //    _context = context;
-        //}
+        private readonly ApplicationContext _db;
 
+        public RecordList(ApplicationContext db)
+        {
+            _db = db;
+        }
         public IViewComponentResult Invoke()
         {
-            // todo: через DI получать значение из базы данных и выводить его на View
-            var dt = new List<DateTime> {DateTime.MinValue, DateTime.Now, DateTime.MaxValue};
+            var dt = _db.DateTimeRecords.Select(s=>s.Value).ToList();
             return View("RecordList", dt);
         }
     }

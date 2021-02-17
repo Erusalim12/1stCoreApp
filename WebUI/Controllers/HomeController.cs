@@ -6,15 +6,19 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using WebUI.Models;
+using WebUI.Models.Entity;
+ 
 
 namespace WebUI.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly ApplicationContext _db;
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ApplicationContext db, ILogger<HomeController> logger)
         {
+            _db = db;
             _logger = logger;
         }
 
@@ -25,14 +29,13 @@ namespace WebUI.Controllers
 
         [HttpPost]
         [Route("Home/SaveValue")]
-        public IActionResult Save(string date)
+        public IActionResult Save(DateTime date)
         {
-            if (!string.IsNullOrEmpty(date))
-            {
-                return Json(new { Message = "Success" });
-            }
-            return Json(new { Message = "Error" });
+            var entity = new DateTimeEntity { Value = date };
+            _db.DateTimeRecords.Add(entity);
+            _db.SaveChanges();
 
+            return entity.Id != 0 ? Json(new { Message = "Success" }) : Json(new { Message = "Error" });
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

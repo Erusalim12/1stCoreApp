@@ -1,6 +1,4 @@
-using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using WebUI.Services;
 
 namespace WebUI.Tests
 {
@@ -10,8 +8,13 @@ namespace WebUI.Tests
         [TestMethod]
         public void DateServiceCanCreate()
         {
-            var dateService = new DateService();
-            Assert.IsNotNull(dateService);
+           
+        }
+
+        [TestMethod]
+        public void AddItemToRepo()
+        {
+
         }
     }
 }
