@@ -23,9 +23,16 @@ namespace WebUI.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        [HttpPost]
+        [Route("Home/SaveValue")]
+        public IActionResult Save(string date)
         {
-            return View();
+            if (!string.IsNullOrEmpty(date))
+            {
+                return Json(new { Message = "Success" });
+            }
+            return Json(new { Message = "Error" });
+
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -3,8 +3,31 @@
 }
 
 <div class="text-center">
-    @await Component.InvokeAsync("CurrentTime")
+    <div>
+        <p id="current_time">@await Component.InvokeAsync("CurrentDate")</p>
+
+    </div>
+
+    <button type="button" id="submitBtn" class="btn btn-sm btn-outline-primary btn-block">Сохранить</button>
 </div>
+
 <div>
     @await Component.InvokeAsync("RecordList")
 </div>
+@section Scripts{
+    <script>
+        var currentVal = $('#current_time').text();
+        $('#submitBtn').click(function() {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("SaveValue", "Home")',
+                    data: { date: currentVal },
+                    success: function (response) {
+                        $("#recordlist").append('<li>' + currentVal+'</li>');
+            $('#recordlist').append(response.value);
+            alert(response.message);
+        }
+        });
+    });
+    </script>
+}
