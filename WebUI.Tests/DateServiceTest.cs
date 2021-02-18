@@ -8,7 +8,7 @@ using WebUI.Services;
 namespace WebUI.Tests
 {
     [TestClass]
-    public class UnitTest1
+    public class DateServiceTest
     {
         private DateService service;
         [TestInitialize]
