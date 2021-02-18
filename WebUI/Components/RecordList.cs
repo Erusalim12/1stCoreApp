@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using WebUI.Services;
 
 namespace WebUI.Components
@@ -13,8 +14,14 @@ namespace WebUI.Components
         }
         public IViewComponentResult Invoke()
         {
-            var dt = _dateService.GetItemCollection();
-            return View("RecordList", dt);
+            if (_dateService != null)
+            {
+                var dt = _dateService.GetItemCollection();
+                // ReSharper disable once Mvc.ViewComponentViewNotResolved
+                //path: ~/Views/{controller}/components/{componentName}/{viewName}
+                return View("RecordList", dt);
+            }
+            throw  new NullReferenceException();
         }
     }
 }
