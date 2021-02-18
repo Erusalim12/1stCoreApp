@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using WebUI.Models;
+using WebUI.Services;
 
 namespace WebUI
 {
@@ -24,7 +25,9 @@ namespace WebUI
             string connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ApplicationContext>(options =>
                 options.UseSqlServer(connection));
- 
+
+            services.AddTransient<IDateService, DateService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
