@@ -1,22 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
-using System.Diagnostics;
-using WebUI.Models;
-using WebUI.Models.Entity;
+using WebUI.Services;
 
 
 namespace WebUI.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ApplicationContext _db;
-        private readonly ILogger<HomeController> _logger;
+        private readonly IDateService _service;
 
-        public HomeController(ApplicationContext db, ILogger<HomeController> logger)
+        public HomeController(IDateService service)
         {
-            _db = db;
-            _logger = logger;
+            _service = service;
         }
 
         public IActionResult Index()
@@ -26,24 +21,14 @@ namespace WebUI.Controllers
 
         [HttpPost]
         [Route("Home/SaveValue")]
-        public IActionResult Save(DateTime date)
+        public JsonResult Save(DateTime date)
         {
             if (date != DateTime.MinValue)
             {
-                var entity = new DateTimeEntity { Value = date };
-                _db.DateTimeRecords.Add(entity);
-                _db.SaveChanges();
+                _service.Add(date);
                 return Json(new { Message = "Success", result = 1 });
             }
-
-
             return Json(new { Message = "Error", result = 0 });
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

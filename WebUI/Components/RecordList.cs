@@ -1,20 +1,19 @@
-﻿using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using WebUI.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using WebUI.Services;
 
 namespace WebUI.Components
 {
     public class RecordList : ViewComponent
     {
-        private readonly ApplicationContext _db;
-
-        public RecordList(ApplicationContext db)
+        private readonly IDateService _dateService;
+        
+        public RecordList(IDateService dateService)
         {
-            _db = db;
+            _dateService = dateService;
         }
         public IViewComponentResult Invoke()
         {
-            var dt = _db.DateTimeRecords.Select(s=>s.Value).ToList();
+            var dt = _dateService.GetItemCollection();
             return View("RecordList", dt);
         }
     }
